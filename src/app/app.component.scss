@@ -1,0 +1,30 @@
+// src/app/app.component.scss
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.install-button {
+  margin-right: 16px; // Adiciona um espaço antes do botão de configurações
+  // Adicione mais estilos se desejar
+}
+
+// Estilos para o container principal, se ainda não os tiver
+.container {
+  padding: 16px; // Ou o padding que preferir
+}
+
+.toolbar-logo {
+  // Define a altura da imagem para ser 100% da altura da toolbar.
+  // A toolbar do Angular Material tem 64px de altura em desktops e 56px em celulares.
+  // Esta propriedade fará com que a imagem se ajuste a essa altura automaticamente.
+  height: 80%;
+
+  // A largura se ajustará automaticamente para manter a proporção da imagem.
+  width: auto;
+
+  // Adiciona um espaço à direita para separar a imagem do título.
+  margin-right: 16px;
+
+  // Opcional: Se quiser que a imagem seja circular (bom para logos)
+  // border-radius: 50%;
+}

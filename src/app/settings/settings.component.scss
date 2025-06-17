@@ -1,0 +1,53 @@
+.settings-container {
+  max-width: 800px;
+  margin: auto;
+}
+
+.variable-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.variable-list-item {
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+
+  .variable-name {
+    font-weight: bold;
+  }
+
+  .variable-value-input {
+    width: 150px; // Ajuste conforme necessário
+    margin-right: 10px;
+  }
+
+  .variable-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px; // Espaçamento entre os checkboxes e o botão
+  }
+}
+
+.nova span{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+
+.w-full {
+  width: 100%;
+}
+
+.mb-4 {
+  margin-bottom: 16px;
+}
+.mt-2 {
+  margin-top: 8px;
+}

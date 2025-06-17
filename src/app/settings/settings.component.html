@@ -1,0 +1,107 @@
+<div class="settings-container p-4">
+  <button mat-stroked-button color="primary" (click)="goBack()" class="mb-4">
+    <mat-icon>arrow_back</mat-icon>
+    Voltar
+  </button>
+
+  <mat-card class="mb-4" style="gap:0.5rem;">
+    <mat-card-header>
+      <mat-card-title>Definir Fórmula</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="formulaForm" (ngSubmit)="saveFormula()">
+        <mat-form-field appearance="outline" class="w-full">
+          <mat-label>Fórmula</mat-label>
+          <input matInput formControlName="formulaString" placeholder="Ex: ((Largura * Altura)/2)">
+          <mat-hint>Use as variáveis definidas abaixo. Operações: +, -, *, / e parênteses ().</mat-hint>
+          <mat-error *ngIf="formulaForm.get('formulaString')?.hasError('required')">
+            A fórmula é obrigatória.
+          </mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="primary" type="submit" [disabled]="formulaForm.invalid">
+          Salvar Fórmula
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="variables.length > 0">
+    <mat-card-header style="margin-bottom: 1rem;">
+      <mat-card-title>Variáveis Definidas</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <div *ngFor="let variable of variables" class="variable-list-item" style="    display: flex
+;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;">
+            
+            
+            <mat-form-field class="variable-value-input" appearance="outline">
+              <mat-label>{{ variable.name }}</mat-label>
+              <input  matInput type="number" [value]="variable.value"
+                     (blur)="updateVariableValue(variable, $event)"
+                     [disabled]="!variable.isConstant && variable.isVisualized"
+                     placeholder="Valor">
+            </mat-form-field>
+
+          <div >
+              <button mat-icon-button 
+                      (click)="toggleVisualized(variable)" 
+                      [attr.aria-pressed]="variable.isVisualized"
+                      aria-label="Alternar visualização na tela inicial">
+                <mat-icon>{{ variable.isVisualized ? 'visibility' : 'visibility_off' }}</mat-icon>
+              </button>
+              <button mat-icon-button color="warn" (click)="deleteVariable(variable.id)" aria-label="Excluir variável">
+                <mat-icon>delete</mat-icon>
+              </button>
+          </div>
+        </div>
+    </div>
+    </mat-card-content>
+
+    <mat-accordion class="mb-4">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Adicionar Nova Variável
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      
+      <div class="pt-4">
+        <form [formGroup]="variableForm" (ngSubmit)="addVariable()" class="variable-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome da Variável</mat-label>
+            <input matInput formControlName="name" placeholder="Ex: Capital_inicial">
+            <mat-error *ngIf="variableForm.get('name')?.hasError('required')">Nome é obrigatório.</mat-error>
+            <mat-error *ngIf="variableForm.get('name')?.hasError('pattern')">Nome inválido (use letras, números e _, comece com letra ou _).</mat-error>
+            <mat-error *ngIf="variableForm.get('name')?.hasError('nameExists')">Este nome de variável já existe.</mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Valor Inicial/Padrão</mat-label>
+            <input matInput type="number" formControlName="value">
+            <mat-error *ngIf="variableForm.get('value')?.hasError('required')">Valor é obrigatório.</mat-error>
+          </mat-form-field>
+
+          <mat-checkbox formControlName="isVisualized" class="mt-2 mb-2">
+            Visualizar na tela inicial
+          </mat-checkbox>
+          
+          <mat-checkbox formControlName="isConstant" class="mt-2 mb-2">
+            Valor constante?
+          </mat-checkbox>
+
+          <button mat-raised-button color="accent" type="submit" [disabled]="variableForm.invalid">
+            <mat-icon>add</mat-icon> Inserir Variável
+          </button>
+        </form>
+      </div>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  </mat-card>
+
+  
+</div>

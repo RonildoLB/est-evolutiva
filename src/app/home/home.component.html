@@ -1,0 +1,52 @@
+<div class="home-container p-4">
+  <mat-card class="mb-4">
+    <mat-card-header>
+      <mat-card-title>Cálculo de orçamento</mat-card-title>
+      <mat-card-subtitle *ngIf="!formulaString">Nenhuma fórmula definida. Vá para Configurações.</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content *ngIf="formulaString">
+      <form [formGroup]="calculatorForm" (ngSubmit)="calculate()">
+        <div *ngIf="visualizedVariables.length > 0; else noVariables">
+          <p class="text-lg font-semibold mb-2">Insira os valores:</p>
+          <div class="variables-grid">
+            <ng-container *ngFor="let variable of visualizedVariables">
+              <div class="variable-input-item">
+                <span *ngIf="variable.isConstant" class="constant-value">
+                  <strong>{{ variable.name }}:</strong> {{ variable.value }} (Constante)
+                </span>
+                <mat-form-field *ngIf="!variable.isConstant" appearance="outline">
+                  <mat-label>{{ variable.name }}</mat-label>
+                  <input matInput type="number" [formControlName]="variable.name">
+                  <mat-error *ngIf="calculatorForm.get(variable.name)?.hasError('required')">
+                    Valor para {{variable.name}} é obrigatório.
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+        <ng-template #noVariables>
+          <p *ngIf="formulaString">Não há variáveis visualizáveis para esta fórmula ou todas são constantes.</p>
+        </ng-template>
+
+        <button mat-flat-button matButton="filled" color="primary" type="submit" [disabled]="!formulaString">
+          Calcular
+        </button>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="calculationResult !== null || calculationError" class="mt-4">
+    <mat-card-header>
+      <mat-card-title>Valor:</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div *ngIf="calculationResult !== null" class="result success">
+        {{ calculationResult | currency:'BRL':'symbol':'1.2-2' }}
+      </div>
+      <div *ngIf="calculationError" class="result error">
+        {{ calculationError }}
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
